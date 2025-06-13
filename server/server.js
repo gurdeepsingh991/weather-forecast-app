@@ -5,6 +5,7 @@ const cors = require('cors');
 const app = express();
 const mongoose = require('mongoose');
 const weatherRoutes = require('./routes/weather');
+const dbConnection = require('./mongodb/mongoDbConnection');
 
 const allwedOrigins = [
     'http://localhost:5173',
@@ -36,13 +37,7 @@ app.get('/api', (req, res) => {
 
 app.use('/api', weatherRoutes);
 
-mongoose.connect(process.env.MONGODB_URI).then(() => {
-    console.log('Connected to MongoDB');
-} 
-).catch(err => {
-    console.error('Error connecting to MongoDB:', err);
-}
-);
+dbConnection.connectDB()
 
 // Start server
 const PORT = process.env.PORT || 5000;
