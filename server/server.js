@@ -3,18 +3,14 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const mongoose = require('mongoose');
+const config = require('./config')
 const weatherRoutes = require('./routes/weather');
-const dbConnection = require('./mongodb/mongoDbConnection');
-
-const allwedOrigins = [
-    'http://localhost:5173',
-]
+const {connectDB} = require('./mongodb/mongoDbConnection');
 
 // Middleware
 app.use(cors({
     origins: function (origin, callback) {
-        if (!origion || allwedOrigins.indexOf(origin) !== -1) {
+        if (!origion || config.allwedOrigins.indexOf(origin) !== -1) {
             callback(null, true);
         }
         else {
@@ -37,10 +33,9 @@ app.get('/api', (req, res) => {
 
 app.use('/api', weatherRoutes);
 
-dbConnection.connectDB()
+connectDB()
 
 // Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+app.listen(config.port, () => {
     console.log(`Server running on port ${PORT}`);
 });
