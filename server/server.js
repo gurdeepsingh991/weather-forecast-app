@@ -28,7 +28,7 @@ app.use(express.json());
 
 // Basic route
 app.get('/api', (req, res) => {
-    res.send('Weather Forecast API');
+    res.send('Weather Forecast API'); 
 });
 
 app.use('/api', weatherRoutes);
